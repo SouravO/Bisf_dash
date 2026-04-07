@@ -86,20 +86,24 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800">
       {/* Header */}
-      <header className="p-6 md:p-10 flex justify-between items-center w-full max-w-5xl mx-auto">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <ShieldCheck className="text-white w-5 h-5" />
-          </div>
-          <span className="text-2xl font-bold text-blue-600 tracking-tight">
-            Bsfi
-          </span>
+      <header className=" flex items-center justify-between p-6 border-b bg-white shadow-sm">
+        <div className="flex items-center gap-3">
+          <a href="/" className="inline-block">
+            <img
+              src="/logos.png"
+              alt="BISF Logo"
+              className="w-36 h-auto object-contain hover:opacity-80 transition-opacity"
+            />
+          </a>
+          <div></div>
         </div>
-        {step > 0 && step < 5 && (
-          <div className="text-sm font-medium text-slate-400">
-            Step {step} of 5
-          </div>
-        )}
+        <a
+          href="/admin/login"
+          className="px-5 py-2.5 bg-[#2B2E7E] text-white rounded-xl font-medium hover:bg-[#1f2263] transition-colors flex items-center gap-2 text-sm"
+        >
+          <ShieldCheck className="w-4 h-4" />
+          Admin Login
+        </a>
       </header>
 
       {/* Main Content Area */}
@@ -108,23 +112,21 @@ export default function App() {
           {/* STEP 0: LANDING PAGE */}
           {step === 0 && (
             <div className="text-center space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-medium text-sm mb-4">
-                ✨ The future of data
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#2B2E7E]/10 text-[#2B2E7E] font-medium text-sm mb-4">
+                A Venture by iQue Global
               </div>
               <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900">
-                Join the{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                  Ecosystem
+                Bharat Innovation &{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2B2E7E] to-[#3d41a8]">
+                  Startup Facilitator
                 </span>
               </h1>
               <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto">
-                Bsfi is building the next generation of interconnected
-                platforms. Enter your details to get early access and join our
-                growing network.
+                Empowering Founders. Enabling Investors. Building the Future.
               </p>
               <button
                 onClick={handleNext}
-                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-full font-semibold text-lg overflow-hidden transition-all hover:bg-blue-700 hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(37,99,235,0.5)]"
+                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#2B2E7E] text-white rounded-full font-semibold text-lg overflow-hidden transition-all hover:bg-[#1f2263] hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(43,46,126,0.5)]"
               >
                 <span>Get Started</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -135,12 +137,12 @@ export default function App() {
           {/* STEP 1: ARE YOU READY (First Question) */}
           {step === 1 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-right-8 duration-500">
-              <h2 className="text-3xl md:text-4xl font-bold text-blue-600">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#2B2E7E]">
                 Are you ready to be part of something bigger than just an
                 investment?
               </h2>
 
-              <div className="grid md:grid-cols-2 gap-4 mt-8 bg-[#eef2ff] p-2 rounded-2xl border border-blue-100 shadow-sm">
+              <div className="grid md:grid-cols-2 gap-4 mt-8 bg-[#2B2E7E]/5 p-2 rounded-2xl border border-[#2B2E7E]/10 shadow-sm">
                 <button
                   onClick={() => {
                     updateData("is_interested", true);
@@ -176,14 +178,14 @@ export default function App() {
           {/* STEP 2: ECOSYSTEM */}
           {step === 2 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-right-8 duration-500">
-              <h2 className="text-3xl md:text-4xl font-bold text-blue-600">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#2B2E7E]">
                 Ready to take the next step?
               </h2>
               <p className="text-slate-500">
                 Are you excited to join our ecosystem?
               </p>
 
-              <div className="grid md:grid-cols-2 gap-4 mt-8 bg-[#eef2ff] p-2 rounded-2xl border border-blue-100 shadow-sm">
+              <div className="grid md:grid-cols-2 gap-4 mt-8 bg-[#2B2E7E]/5 p-2 rounded-2xl border border-[#2B2E7E]/10 shadow-sm">
                 <button
                   onClick={() => {
                     updateData("ecosystem", true);
@@ -219,7 +221,7 @@ export default function App() {
           {/* STEP 3: PERSONAL DETAILS */}
           {step === 3 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-right-8 duration-500">
-              <h2 className="text-3xl md:text-4xl font-bold text-blue-600">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#2B2E7E]">
                 Tell us about you
               </h2>
               <p className="text-slate-500">
@@ -229,7 +231,7 @@ export default function App() {
 
               <div className="grid md:grid-cols-3 gap-6 mt-8">
                 {/* Full Name Input Card */}
-                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-400">
+                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-[#2B2E7E] focus-within:ring-1 focus-within:ring-[#2B2E7E]">
                   <div className="bg-[#dce4ff] py-3 flex justify-center border-b border-slate-100">
                     <User
                       className="w-6 h-6 text-slate-700"
@@ -251,7 +253,7 @@ export default function App() {
                 </div>
 
                 {/* Phone Input Card */}
-                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-400">
+                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-[#2B2E7E] focus-within:ring-1 focus-within:ring-[#2B2E7E]">
                   <div className="bg-[#dce4ff] py-3 flex justify-center border-b border-slate-100">
                     <Phone
                       className="w-6 h-6 text-slate-700"
@@ -273,7 +275,7 @@ export default function App() {
                 </div>
 
                 {/* Email Input Card */}
-                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-400">
+                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-[#2B2E7E] focus-within:ring-1 focus-within:ring-[#2B2E7E]">
                   <div className="bg-[#dce4ff] py-3 flex justify-center border-b border-slate-100">
                     <Mail
                       className="w-6 h-6 text-slate-700"
@@ -299,7 +301,7 @@ export default function App() {
                 <button
                   onClick={handleNext}
                   disabled={!formData.name || !formData.phone}
-                  className="px-8 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-8 py-3 bg-[#2B2E7E] text-white rounded-xl font-medium hover:bg-[#1f2263] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   Continue <ArrowRight className="w-4 h-4" />
                 </button>
@@ -310,7 +312,7 @@ export default function App() {
           {/* STEP 4: LOCATION (Screenshot 3) */}
           {step === 4 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-right-8 duration-500">
-              <h2 className="text-3xl md:text-4xl font-bold text-blue-600">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#2B2E7E]">
                 Where Are You Based?
               </h2>
               <p className="text-slate-500">
@@ -320,7 +322,7 @@ export default function App() {
 
               <div className="grid md:grid-cols-2 gap-6 mt-8">
                 {/* Place Input Card */}
-                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-400">
+                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-[#2B2E7E] focus-within:ring-1 focus-within:ring-[#2B2E7E]">
                   <div className="bg-[#dce4ff] py-3 flex justify-center border-b border-slate-100">
                     <MapPin
                       className="w-6 h-6 text-slate-700"
@@ -342,7 +344,7 @@ export default function App() {
                 </div>
 
                 {/* City Input Card */}
-                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-400">
+                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-[#2B2E7E] focus-within:ring-1 focus-within:ring-[#2B2E7E]">
                   <div className="bg-[#dce4ff] py-3 flex justify-center border-b border-slate-100">
                     <Building2
                       className="w-6 h-6 text-slate-700"
@@ -379,7 +381,7 @@ export default function App() {
                 <button
                   onClick={submitToSupabase}
                   disabled={isSubmitting}
-                  className="px-8 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors disabled:opacity-70 flex items-center gap-2 shadow-lg shadow-blue-200"
+                  className="px-8 py-3 bg-[#2B2E7E] text-white rounded-xl font-medium hover:bg-[#1f2263] transition-colors disabled:opacity-70 flex items-center gap-2 shadow-lg shadow-[#2B2E7E]/20"
                 >
                   {isSubmitting ? (
                     <>

@@ -1,46 +1,65 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ShieldCheck, Lock, User, Loader2 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import { ShieldCheck, Lock, Mail, Loader2 } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Check if already logged in
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        router.push("/admin/dashboard");
+      }
+    };
+    checkSession();
+  }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
-    // Simple authentication check
-    // In production, use proper authentication (Supabase Auth, etc.)
-    if (username === "admin" && password === "admin123") {
-      // Set session token
-      sessionStorage.setItem("adminAuthenticated", "true");
-      router.push("/admin/dashboard");
-    } else {
-      setError("Invalid username or password");
-    }
+    try {
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    setIsLoading(false);
+      if (authError) {
+        throw authError;
+      }
+
+      if (data.session) {
+        router.push("/admin/dashboard");
+      }
+    } catch (err: any) {
+      console.error("Login error:", err);
+      setError(err.message || "Invalid email or password");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       {/* Header */}
-      <header className="p-6 md:p-10 flex justify-between items-center w-full max-w-5xl mx-auto">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <ShieldCheck className="text-white w-5 h-5" />
-          </div>
-          <span className="text-2xl font-bold text-blue-600 tracking-tight">
-            Bsfi Admin
-          </span>
-        </div>
+      <header className="flex items-center justify-start py-6 ">
+        <a href="/" className="inline-block">
+          <img
+            src="/logos.png"
+            alt="BISF Logo"
+            className="w-36 h-auto object-contain hover:opacity-80 transition-opacity"
+          />
+        </a>
       </header>
 
       {/* Login Form */}
@@ -48,12 +67,10 @@ export default function AdminLoginPage() {
         <div className="w-full max-w-md">
           <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-8 space-y-6">
             <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Lock className="w-8 h-8 text-blue-600" />
+              <div className="w-16 h-16 bg-[#2B2E7E]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Lock className="w-8 h-8 text-[#2B2E7E]" />
               </div>
-              <h1 className="text-2xl font-bold text-slate-800">
-                Admin Login
-              </h1>
+              <h1 className="text-2xl font-bold text-slate-800">Admin Login</h1>
               <p className="text-slate-500 mt-2">
                 Enter your credentials to access the admin dashboard
               </p>
@@ -68,16 +85,16 @@ export default function AdminLoginPage() {
 
               <div className="space-y-2">
                 <label className="block font-semibold text-slate-800 text-sm">
-                  Username
+                  Email Address
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter username"
-                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="admin@bisf.com"
+                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B2E7E] focus:border-transparent text-slate-800 bg-white"
                     required
                   />
                 </div>
@@ -94,7 +111,7 @@ export default function AdminLoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter password"
-                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B2E7E] focus:border-transparent text-slate-800 bg-white"
                     required
                   />
                 </div>
@@ -103,7 +120,7 @@ export default function AdminLoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors disabled:opacity-70 flex items-center justify-center gap-2 shadow-lg shadow-blue-200"
+                className="w-full py-3 bg-[#2B2E7E] text-white rounded-xl font-medium hover:bg-[#1f2263] transition-colors disabled:opacity-70 flex items-center justify-center gap-2 shadow-lg shadow-[#2B2E7E]/20"
               >
                 {isLoading ? (
                   <>
@@ -116,8 +133,7 @@ export default function AdminLoginPage() {
             </form>
 
             <div className="text-center text-xs text-slate-400 pt-4 border-t border-slate-100">
-              <p>Default credentials: admin / admin123</p>
-              <p className="mt-1">Change these in production!</p>
+              <p>Use your Supabase admin credentials to login</p>
             </div>
           </div>
         </div>

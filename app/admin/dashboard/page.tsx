@@ -38,13 +38,30 @@ export default function AdminDashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState("");
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   // Check authentication on mount
   useEffect(() => {
-    const isAuthenticated = sessionStorage.getItem("adminAuthenticated");
-    if (!isAuthenticated) {
-      router.push("/admin/login");
-    }
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        router.push("/admin/login");
+      } else {
+        setUserEmail(session.user.email);
+      }
+    };
+    checkSession();
+  }, [router]);
+
+  // Listen for auth state changes
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!session) {
+        router.push("/admin/login");
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, [router]);
 
   // Fetch leads from Supabase
@@ -75,8 +92,8 @@ export default function AdminDashboardPage() {
     fetchLeads();
   }, []);
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("adminAuthenticated");
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     router.push("/admin/login");
   };
 
@@ -134,15 +151,21 @@ export default function AdminDashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-[#2B2E7E] rounded-lg flex items-center justify-center">
                 <ShieldCheck className="text-white w-5 h-5" />
               </div>
-              <span className="text-xl font-bold text-blue-600 tracking-tight">
-                Bsfi Admin
-              </span>
+              <div>
+                <span className="text-xl font-bold text-[#2B2E7E] tracking-tight">
+                  BISF Admin
+                </span>
+                <p className="text-xs text-slate-500">Bharat Innovation & Startup Facilitator</p>
+              </div>
             </div>
 
             <div className="flex items-center gap-4">
+              {userEmail && (
+                <span className="text-sm text-slate-600">{userEmail}</span>
+              )}
               <button
                 onClick={handleRefresh}
                 className="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors"
@@ -170,8 +193,8 @@ export default function AdminDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Users className="w-5 h-5 text-blue-600" />
+              <div className="w-10 h-10 bg-[#2B2E7E]/10 rounded-lg flex items-center justify-center">
+                <Users className="w-5 h-5 text-[#2B2E7E]" />
               </div>
               <div>
                 <p className="text-sm text-slate-500">Total Leads</p>
@@ -244,7 +267,7 @@ export default function AdminDashboardPage() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search by name, email, phone, city, or place..."
-              className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B2E7E] focus:border-transparent"
             />
           </div>
         </div>
@@ -260,7 +283,7 @@ export default function AdminDashboardPage() {
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
           {isLoading ? (
             <div className="flex items-center justify-center py-20">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+              <Loader2 className="w-8 h-8 animate-spin text-[#2B2E7E]" />
               <span className="ml-3 text-slate-500">Loading leads...</span>
             </div>
           ) : filteredLeads.length === 0 ? (
