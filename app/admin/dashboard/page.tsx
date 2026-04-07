@@ -47,7 +47,7 @@ export default function AdminDashboardPage() {
       if (!session) {
         router.push("/admin/login");
       } else {
-        setUserEmail(session.user.email);
+        setUserEmail(session.user.email ?? null);
       }
     };
     checkSession();

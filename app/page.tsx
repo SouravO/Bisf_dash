@@ -19,10 +19,20 @@ const SUPABASE_URL = "https://pszgnnbpyqvbdndcoelb.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzemdubmJweXF2YmRuZGNvZWxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxOTc3MTIsImV4cCI6MjA5MDc3MzcxMn0.SZfNKtY_r59lm5OzyDgWrueILpT5zyMKy51di8tkEZE";
 
+interface FormData {
+  ecosystem: boolean | null;
+  is_interested: boolean | null;
+  name: string;
+  phone: string;
+  email: string;
+  place: string;
+  city: string;
+}
+
 export default function App() {
   const [step, setStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     ecosystem: null,
     is_interested: null,
     name: "",
@@ -34,7 +44,7 @@ export default function App() {
 
   const handleNext = () => setStep((prev) => prev + 1);
 
-  const updateData = (field, value) => {
+  const updateData = (field: keyof FormData, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
