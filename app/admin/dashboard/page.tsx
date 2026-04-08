@@ -19,6 +19,7 @@ import {
   PieChart as PieChartIcon,
   LayoutDashboard,
   List,
+  Trash2,
 } from "lucide-react";
 import {
   PieChart,
@@ -127,6 +128,25 @@ export default function AdminDashboardPage() {
 
   const handleRefresh = () => {
     fetchLeads();
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!window.confirm("Are you sure you want to delete this lead?")) return;
+
+    try {
+      const { error: deleteError } = await supabase
+        .from("leads")
+        .delete()
+        .eq("id", id);
+
+      if (deleteError) throw deleteError;
+
+      // Update state locally
+      setLeads((prev) => prev.filter((lead) => lead.id !== id));
+    } catch (err) {
+      console.error("Error deleting lead:", err);
+      alert("Failed to delete lead. Please try again.");
+    }
   };
 
   // Filter leads based on search term
@@ -576,6 +596,9 @@ export default function AdminDashboardPage() {
                         <th className="text-left py-3 px-4 text-xs font-semibold text-slate-600 uppercase tracking-wider">
                           Date
                         </th>
+                        <th className="text-right py-3 px-4 text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                          Actions
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
@@ -647,6 +670,15 @@ export default function AdminDashboardPage() {
                           </td>
                           <td className="py-4 px-4 text-sm text-slate-500">
                             {new Date(lead.created_at).toLocaleDateString()}
+                          </td>
+                          <td className="py-4 px-4 text-right">
+                            <button
+                              onClick={() => handleDelete(lead.id)}
+                              className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                              title="Delete Lead"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
                           </td>
                         </tr>
                       ))}
