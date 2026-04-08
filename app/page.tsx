@@ -137,7 +137,7 @@ export default function App() {
       
       {/* Mobile Header (Visible only on smaller screens) */}
       <header className="lg:hidden flex items-center justify-between p-6 bg-white shadow-sm z-10">
-        <img src="/logos.png" alt="BISF Logo" className="w-28 h-auto object-contain" />
+        {/* <img src="/logos.png" alt="BISF Logo" className="w-28 h-auto object-contain" /> */}
         <a href="/admin/login" className="text-[#2B2E7E] hover:text-[#1f2263]">
           <ShieldCheck className="w-6 h-6" />
         </a>
@@ -151,8 +151,8 @@ export default function App() {
         <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="relative z-10 flex justify-between items-start">
-          <a href="/" className="inline-block bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/10 hover:bg-white/20 transition-all">
-            <img src="/logos.png" alt="BISF Logo" className="w-40 h-auto object-contain brightness-0 invert" />
+          <a href="/" className="inline-block p-4 rounded-2xl backdrop-blur-md w-auto border-white/10 hover:bg-white/20 transition-all">
+            <img src="/logos.png" alt="BISF Logo" className="w-60 h-auto object-contain brightness-0 invert" />
           </a>
         </div>
 

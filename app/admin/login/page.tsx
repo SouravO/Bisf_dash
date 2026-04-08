@@ -15,7 +15,9 @@ export default function AdminLoginPage() {
   // Check if already logged in
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (session) {
         router.push("/admin/dashboard");
       }
@@ -29,10 +31,12 @@ export default function AdminLoginPage() {
     setError("");
 
     try {
-      const { data, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data, error: authError } = await supabase.auth.signInWithPassword(
+        {
+          email,
+          password,
+        },
+      );
 
       if (authError) {
         throw authError;
@@ -50,14 +54,14 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen  flex flex-col">
       {/* Header */}
       <header className="flex items-center justify-start py-6 ">
         <a href="/" className="inline-block">
           <img
             src="/logos.png"
             alt="BISF Logo"
-            className="w-36 h-auto object-contain hover:opacity-80 transition-opacity"
+            className="w-36 h-auto object-contain "
           />
         </a>
       </header>
