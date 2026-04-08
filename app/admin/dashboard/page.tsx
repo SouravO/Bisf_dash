@@ -20,6 +20,8 @@ import {
   LayoutDashboard,
   List,
   Trash2,
+  Filter,
+  ArrowUpDown,
 } from "lucide-react";
 import {
   PieChart,
@@ -56,6 +58,10 @@ export default function AdminDashboardPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [interestFilter, setInterestFilter] = useState<string>("all");
+  const [ecosystemFilter, setEcosystemFilter] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<"date_desc" | "date_asc" | "name_asc" | "name_desc">("date_desc");
   const [error, setError] = useState("");
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"list" | "summary">("summary");
@@ -149,17 +155,68 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // Filter leads based on search term
-  const filteredLeads = leads.filter((lead) => {
-    const search = searchTerm.toLowerCase();
-    return (
-      lead.name?.toLowerCase().includes(search) ||
-      lead.email?.toLowerCase().includes(search) ||
-      lead.phone?.toLowerCase().includes(search) ||
-      lead.city?.toLowerCase().includes(search) ||
-      lead.state?.toLowerCase().includes(search)
-    );
-  });
+  const handleStatusUpdate = async (id: number, newStatus: string) => {
+    try {
+      const { error: updateError } = await supabase
+        .from("leads")
+        .update({ status: newStatus })
+        .eq("id", id);
+
+      if (updateError) throw updateError;
+
+      // Update state locally
+      setLeads((prev) =>
+        prev.map((lead) =>
+          lead.id === id ? { ...lead, status: newStatus } : lead
+        )
+      );
+    } catch (err) {
+      console.error("Error updating status:", err);
+      alert("Failed to update status. Please try again.");
+    }
+  };
+
+  // Filter and sort leads
+  const filteredLeads = leads
+    .filter((lead) => {
+      // Search term filter
+      const search = searchTerm.toLowerCase();
+      const matchesSearch =
+        lead.name?.toLowerCase().includes(search) ||
+        lead.email?.toLowerCase().includes(search) ||
+        lead.phone?.toLowerCase().includes(search) ||
+        lead.city?.toLowerCase().includes(search) ||
+        lead.state?.toLowerCase().includes(search);
+
+      // Status filter
+      const matchesStatus = statusFilter === "all" || lead.status === statusFilter;
+
+      // Interest filter
+      const matchesInterest =
+        interestFilter === "all" ||
+        (interestFilter === "yes" && lead.is_interested === true) ||
+        (interestFilter === "no" && lead.is_interested === false);
+
+      // Ecosystem filter
+      const matchesEcosystem =
+        ecosystemFilter === "all" ||
+        (ecosystemFilter === "yes" && lead.ecosystem === true) ||
+        (ecosystemFilter === "no" && lead.ecosystem === false);
+
+      return matchesSearch && matchesStatus && matchesInterest && matchesEcosystem;
+    })
+    .sort((a, b) => {
+      if (sortBy === "date_desc") {
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      } else if (sortBy === "date_asc") {
+        return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      } else if (sortBy === "name_asc") {
+        return (a.name || "").localeCompare(b.name || "");
+      } else if (sortBy === "name_desc") {
+        return (b.name || "").localeCompare(a.name || "");
+      }
+      return 0;
+    });
 
   // Analytics Data preparation
   const interestData = [
@@ -257,7 +314,7 @@ export default function AdminDashboardPage() {
                   BISF Admin
                 </span>
                 <p className="text-xs text-slate-500">
-                  Bharat Innovation & Startup Facilitator
+                  Bharat Innovations & Startups Facilitator
                 </p>
               </div>
             </div>
@@ -528,17 +585,79 @@ export default function AdminDashboardPage() {
           </div>
         ) : (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            {/* Search Bar */}
-            <div className="bg-white rounded-xl border border-slate-200 p-4 mb-6 shadow-sm">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search by name, email, phone, city, or state..."
-                  className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B2E7E] focus:border-transparent"
-                />
+            {/* Search and Filters */}
+            <div className="flex flex-col gap-4 mb-6">
+              {/* Search Bar */}
+              <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Search by name, email, phone, city, or state..."
+                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B2E7E] focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              {/* Filters and Sorting */}
+              <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex flex-wrap gap-4 items-center">
+                <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
+                  <Filter className="w-4 h-4" />
+                  <span>Filters:</span>
+                </div>
+                
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-[#2B2E7E] focus:border-[#2B2E7E] p-2 outline-none"
+                >
+                  <option value="all">All Status</option>
+                  <option value="new">New</option>
+                  <option value="contacted">Contacted</option>
+                  <option value="qualified">Qualified</option>
+                  <option value="converted">Converted</option>
+                  <option value="lost">Lost</option>
+                </select>
+
+                <select
+                  value={interestFilter}
+                  onChange={(e) => setInterestFilter(e.target.value)}
+                  className="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-[#2B2E7E] focus:border-[#2B2E7E] p-2 outline-none"
+                >
+                  <option value="all">All Interests</option>
+                  <option value="yes">Interested</option>
+                  <option value="no">Not Interested</option>
+                </select>
+
+                <select
+                  value={ecosystemFilter}
+                  onChange={(e) => setEcosystemFilter(e.target.value)}
+                  className="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-[#2B2E7E] focus:border-[#2B2E7E] p-2 outline-none"
+                >
+                  <option value="all">All Ecosystem</option>
+                  <option value="yes">Ecosystem Joiners</option>
+                  <option value="no">Not Ecosystem</option>
+                </select>
+
+                <div className="flex-grow"></div>
+
+                <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
+                  <ArrowUpDown className="w-4 h-4" />
+                  <span>Sort By:</span>
+                </div>
+
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as any)}
+                  className="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-[#2B2E7E] focus:border-[#2B2E7E] p-2 outline-none"
+                >
+                  <option value="date_desc">Date (Newest First)</option>
+                  <option value="date_asc">Date (Oldest First)</option>
+                  <option value="name_asc">Name (A-Z)</option>
+                  <option value="name_desc">Name (Z-A)</option>
+                </select>
               </div>
             </div>
 
@@ -666,7 +785,24 @@ export default function AdminDashboardPage() {
                             </span>
                           </td>
                           <td className="py-4 px-4 text-center">
-                            {getStatusBadge(lead.status)}
+                            <select
+                              value={lead.status || "new"}
+                              onChange={(e) => handleStatusUpdate(lead.id, e.target.value)}
+                              className={`px-3 py-1 rounded-full text-xs font-semibold capitalize outline-none cursor-pointer border border-transparent hover:border-slate-300 transition-all appearance-none text-center min-w-[100px] ${
+                                (lead.status === "new" || !lead.status) ? "bg-green-100 text-green-700" :
+                                lead.status === "contacted" ? "bg-blue-100 text-blue-700" :
+                                lead.status === "qualified" ? "bg-purple-100 text-purple-700" :
+                                lead.status === "converted" ? "bg-emerald-100 text-emerald-700" :
+                                lead.status === "lost" ? "bg-red-100 text-red-700" :
+                                "bg-slate-100 text-slate-700"
+                              }`}
+                            >
+                              <option value="new">New</option>
+                              <option value="contacted">Contacted</option>
+                              <option value="qualified">Qualified</option>
+                              <option value="converted">Converted</option>
+                              <option value="lost">Lost</option>
+                            </select>
                           </td>
                           <td className="py-4 px-4 text-sm text-slate-500">
                             {new Date(lead.created_at).toLocaleDateString()}

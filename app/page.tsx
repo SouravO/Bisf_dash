@@ -203,9 +203,9 @@ export default function App() {
             {step === 0 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
                 <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.1]">
-                  Bharat Innovation &{" "}
+                  Bharat Innovations &{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2B2E7E] to-blue-500">
-                    Startup Facilitator
+                    Startups Facilitator
                   </span>
                 </h1>
                 <p className="text-lg md:text-xl text-slate-500 max-w-xl leading-relaxed">
