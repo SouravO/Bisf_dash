@@ -217,7 +217,7 @@ export default function App() {
                       >
                         <div className="flex flex-col items-start gap-1">
                           <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#2B2E7E]">Path_02</span>
-                          <span className="text-2xl font-black uppercase italic">I'm just exploring</span>
+                          <span className="text-2xl font-black uppercase italic">I&apos;m just exploring</span>
                         </div>
                         <ArrowRight className="w-8 h-8 text-[#2B2E7E] opacity-0 group-hover:opacity-100 transition-all -translate-x-6 group-hover:translate-x-0" />
                       </button>
@@ -244,7 +244,7 @@ export default function App() {
                         onClick={() => { updateData("ecosystem", true); handleNext(); }}
                         className="group flex items-center justify-between p-10 border border-white/5 bg-white/[0.02] hover:border-[#2B2E7E]/50 hover:bg-[#2B2E7E]/5 transition-all duration-500"
                       >
-                        <span className="text-2xl font-black uppercase italic">Yes, I'm in!</span>
+                        <span className="text-2xl font-black uppercase italic">Yes, I&apos;m in!</span>
                         <ArrowRight className="w-8 h-8 text-[#2B2E7E] opacity-0 group-hover:opacity-100 transition-all -translate-x-6 group-hover:translate-x-0" />
                       </button>
                       <button
