@@ -22,6 +22,7 @@ import {
   Trash2,
   Filter,
   ArrowUpDown,
+  Download,
 } from "lucide-react";
 import {
   PieChart,
@@ -38,6 +39,7 @@ import {
   AreaChart,
   Area,
 } from "recharts";
+import * as XLSX from "xlsx";
 
 interface Lead {
   id: number;
@@ -217,6 +219,36 @@ export default function AdminDashboardPage() {
       }
       return 0;
     });
+
+  const handleExportExcel = () => {
+    if (filteredLeads.length === 0) {
+      alert("No data to export");
+      return;
+    }
+
+    // Format data for Excel
+    const exportData = filteredLeads.map((lead) => ({
+      ID: lead.id,
+      Name: lead.name,
+      Email: lead.email || "N/A",
+      Phone: lead.phone,
+      State: lead.state || "N/A",
+      City: lead.city || "N/A",
+      Interested: lead.is_interested ? "Yes" : "No",
+      Ecosystem: lead.ecosystem ? "Yes" : "No",
+      Status: lead.status || "new",
+      "Created At": new Date(lead.created_at).toLocaleString(),
+    }));
+
+    // Create worksheet
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Leads");
+
+    // Download file
+    const date = new Date().toISOString().split("T")[0];
+    XLSX.writeFile(workbook, `BISF_Leads_Export_${date}.xlsx`);
+  };
 
   // Analytics Data preparation
   const interestData = [
@@ -651,13 +683,21 @@ export default function AdminDashboardPage() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-[#2B2E7E] focus:border-[#2B2E7E] p-2 outline-none"
+                  className="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-[#2B2E7E] focus:border-[#2B2E7E] p-2 outline-none mr-2"
                 >
                   <option value="date_desc">Date (Newest First)</option>
                   <option value="date_asc">Date (Oldest First)</option>
                   <option value="name_asc">Name (A-Z)</option>
                   <option value="name_desc">Name (Z-A)</option>
                 </select>
+
+                <button
+                  onClick={handleExportExcel}
+                  className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
+                >
+                  <Download className="w-4 h-4" />
+                  Export Excel
+                </button>
               </div>
             </div>
 
