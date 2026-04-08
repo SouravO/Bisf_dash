@@ -12,6 +12,9 @@ import {
   CheckCircle,
   ShieldCheck,
 } from "lucide-react";
+import SearchableSelect from "@/components/SearchableSelect";
+import { uniqueIndianCities } from "@/lib/cities";
+import { uniqueIndianStates } from "@/lib/places";
 
 // --- SUPABASE CONFIGURATION ---
 // Replace these with your actual Supabase Project URL and Anon Key
@@ -164,7 +167,7 @@ export default function App() {
                     <span>🚀</span> Yes, tell me more
                   </div>
                   <div className="text-sm text-slate-500 group-hover:text-slate-600 italic">
-                    Awesome, let's continue!
+                    Awesome, let&apos;s continue!
                   </div>
                 </button>
                 <button
@@ -175,7 +178,7 @@ export default function App() {
                   className="flex flex-col text-left p-6 rounded-xl hover:bg-white hover:shadow-md transition-all group"
                 >
                   <div className="font-semibold text-slate-800 text-lg mb-1 flex items-center gap-2">
-                    <span>👀</span> I'm just exploring
+                    <span>👀</span> I&apos;m just exploring
                   </div>
                   <div className="text-sm text-slate-500 group-hover:text-slate-600 italic">
                     No worries! Take your time.
@@ -204,10 +207,10 @@ export default function App() {
                   className="flex flex-col text-left p-6 rounded-xl hover:bg-white hover:shadow-md transition-all group"
                 >
                   <div className="font-semibold text-slate-800 text-lg mb-1 flex items-center gap-2">
-                    <span>🎉</span> Yes, I'm in!
+                    <span>🎉</span> Yes, I&apos;m in!
                   </div>
                   <div className="text-sm text-slate-500 group-hover:text-slate-600 italic">
-                    Awesome, let's continue!
+                    Awesome, let&apos;s continue!
                   </div>
                 </button>
                 <button
@@ -235,7 +238,7 @@ export default function App() {
                 Tell us about you
               </h2>
               <p className="text-slate-500">
-                We'd love to know you better. Please share the following details
+                We&apos;d love to know you better. Please share the following details
                 with us:
               </p>
 
@@ -254,7 +257,7 @@ export default function App() {
                     </label>
                     <input
                       type="text"
-                      placeholder="What's your full name?"
+                      placeholder="What&apos;s your full name?"
                       value={formData.name}
                       onChange={(e) => updateData("name", e.target.value)}
                       className="w-full text-sm text-slate-600 placeholder-slate-400 outline-none bg-transparent"
@@ -326,54 +329,30 @@ export default function App() {
                 Where Are You Based?
               </h2>
               <p className="text-slate-500">
-                We'd love to know you better — a couple more details to complete
+                We&apos;d love to know you better — a couple more details to complete
                 your profile:
               </p>
 
               <div className="grid md:grid-cols-2 gap-6 mt-8">
-                {/* Place Input Card */}
-                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-[#2B2E7E] focus-within:ring-1 focus-within:ring-[#2B2E7E]">
-                  <div className="bg-[#dce4ff] py-3 flex justify-center border-b border-slate-100">
-                    <MapPin
-                      className="w-6 h-6 text-slate-700"
-                      strokeWidth={1.5}
-                    />
-                  </div>
-                  <div className="p-4">
-                    <label className="block font-semibold text-slate-800 mb-1">
-                      Place
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Where are you based (Place)?"
-                      value={formData.place}
-                      onChange={(e) => updateData("place", e.target.value)}
-                      className="w-full text-sm text-slate-600 placeholder-slate-400 outline-none bg-transparent"
-                    />
-                  </div>
-                </div>
+                {/* Place Search Dropdown (States) */}
+                <SearchableSelect
+                  label="Place"
+                  placeholder="Select State"
+                  value={formData.place}
+                  onChange={(val) => updateData("place", val)}
+                  icon={<MapPin className="w-6 h-6 text-slate-700" strokeWidth={1.5} />}
+                  options={uniqueIndianStates}
+                />
 
-                {/* City Input Card */}
-                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-[#2B2E7E] focus-within:ring-1 focus-within:ring-[#2B2E7E]">
-                  <div className="bg-[#dce4ff] py-3 flex justify-center border-b border-slate-100">
-                    <Building2
-                      className="w-6 h-6 text-slate-700"
-                      strokeWidth={1.5}
-                    />
-                  </div>
-                  <div className="p-4">
-                    <label className="block font-semibold text-slate-800 mb-1">
-                      City
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="City?"
-                      value={formData.city}
-                      onChange={(e) => updateData("city", e.target.value)}
-                      className="w-full text-sm text-slate-600 placeholder-slate-400 outline-none bg-transparent"
-                    />
-                  </div>
-                </div>
+                {/* City Search Dropdown */}
+                <SearchableSelect
+                  label="City"
+                  placeholder="Select City"
+                  value={formData.city}
+                  onChange={(val) => updateData("city", val)}
+                  icon={<Building2 className="w-6 h-6 text-slate-700" strokeWidth={1.5} />}
+                  options={uniqueIndianCities}
+                />
               </div>
 
               <p className="text-xs text-slate-400 pt-2">
@@ -412,7 +391,7 @@ export default function App() {
                 <CheckCircle className="w-10 h-10 text-green-600" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-slate-800">
-                You're All Set!
+                You&apos;re All Set!
               </h2>
               <p className="text-slate-500 max-w-md mx-auto">
                 Thank you for taking the time to share your details. Your
