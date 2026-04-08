@@ -28,7 +28,7 @@ interface FormData {
   name: string;
   phone: string;
   email: string;
-  place: string;
+  state: string;
   city: string;
 }
 
@@ -41,13 +41,13 @@ export default function App() {
     name: "",
     phone: "",
     email: "",
-    place: "",
+    state: "",
     city: "",
   });
 
   const handleNext = () => setStep((prev) => prev + 1);
 
-  const updateData = (field: keyof FormData, value: any) => {
+  const updateData = (field: keyof FormData, value: string | boolean | null) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -68,7 +68,7 @@ export default function App() {
           name: formData.name,
           phone: formData.phone,
           email: formData.email || null,
-          place: formData.place || null,
+          place: formData.state || null, // Mapping frontend 'state' to database 'place'
           city: formData.city || null,
           is_interested: formData.is_interested,
           ecosystem: formData.ecosystem,
@@ -334,12 +334,12 @@ export default function App() {
               </p>
 
               <div className="grid md:grid-cols-2 gap-6 mt-8">
-                {/* Place Search Dropdown (States) */}
+                {/* State Search Dropdown */}
                 <SearchableSelect
-                  label="Place"
+                  label="State"
                   placeholder="Select State"
-                  value={formData.place}
-                  onChange={(val) => updateData("place", val)}
+                  value={formData.state}
+                  onChange={(val) => updateData("state", val)}
                   icon={<MapPin className="w-6 h-6 text-slate-700" strokeWidth={1.5} />}
                   options={uniqueIndianStates}
                 />
@@ -407,7 +407,7 @@ export default function App() {
                     name: "",
                     phone: "",
                     email: "",
-                    place: "",
+                    state: "",
                     city: "",
                   });
                 }}
