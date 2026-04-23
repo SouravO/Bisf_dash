@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck,
   Zap,
@@ -12,7 +12,8 @@ import {
   ChevronDown,
   BookOpen,
   Globe,
-  lightbulb,
+  Menu,
+  X,
 } from "lucide-react";
 import MoneyLoader from "./MoneyLoader";
 
@@ -43,6 +44,7 @@ export default function AppleLandingPage({
   const containerRef = useRef(null);
   const bookSectionRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 3000);
@@ -67,48 +69,115 @@ export default function AppleLandingPage({
 
   return (
     <>
+      {/* 1. PREMIUM NAVBAR */}
+      <nav 
+        className="fixed top-0 left-0 right-0 w-full z-[10000] bg-[#050505]/90 backdrop-blur-md border-b border-white/10 h-16 lg:h-24 flex items-center"
+      >
+        <div className="max-w-[1400px] mx-auto w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div className="flex items-center flex-shrink-0">
+            <img
+              src="/logos.png"
+              alt="BISF"
+              className="h-10 lg:h-20 w-auto transition-transform hover:scale-105"
+            />
+          </div>
+          
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex gap-12 text-base font-semibold tracking-wide text-white/70">
+            <a
+              href="#vision"
+              className="hover:text-white transition-colors duration-200"
+            >
+              Vision
+            </a>
+            <a
+              href="#services"
+              className="hover:text-white transition-colors duration-200"
+            >
+              Services
+            </a>
+            <a
+              href="#contact"
+              className="hover:text-white transition-colors duration-200"
+            >
+              Connect
+            </a>
+          </div>
+
+          <div className="flex items-center gap-4">
+            {/* Desktop Get Started Button */}
+            <div className="hidden lg:block">
+              <button
+                onClick={onStartJourney}
+                className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-5 py-2.5 lg:px-7 lg:py-3 rounded-xl font-bold transition-all hover:shadow-blue-500/50 hover:shadow-2xl text-xs lg:text-base whitespace-nowrap"
+              >
+                Get Started
+              </button>
+            </div>
+
+            {/* Mobile Hamburger Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="absolute top-full left-0 right-0 bg-[#050505] border-b border-white/10 overflow-hidden lg:hidden"
+            >
+              <div className="px-4 py-8 flex flex-col gap-6 items-center">
+                <a
+                  href="#vision"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-lg font-medium text-white/70 hover:text-white transition-colors"
+                >
+                  Vision
+                </a>
+                <a
+                  href="#services"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-lg font-medium text-white/70 hover:text-white transition-colors"
+                >
+                  Services
+                </a>
+                <a
+                  href="#contact"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-lg font-medium text-white/70 hover:text-white transition-colors"
+                >
+                  Connect
+                </a>
+                <button
+                  onClick={() => {
+                    onStartJourney();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full max-w-xs bg-gradient-to-r from-blue-600 to-blue-500 text-white py-4 rounded-xl font-bold text-center"
+                >
+                  Get Started
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+
       {isLoading && <MoneyLoader />}
+
       <div
         ref={containerRef}
         className="bg-black text-white selection:bg-blue-600 font-sans antialiased"
       >
-        {/* 1. PREMIUM NAVBAR */}
-        <nav className="fixed top-0 w-full z-[100] backdrop-blur-2xl bg-gradient-to-b from-black/60 to-black/40 border-b border-white/10">
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-16 lg:h-24 flex items-center justify-between">
-            <img
-              src="/logos.png"
-              alt="BISF"
-              className="h-12 lg:h-24 transition-transform hover:scale-110 drop-shadow-lg"
-            />
-            <div className="hidden lg:flex gap-12 text-base font-semibold tracking-wide text-white/70">
-              <a
-                href="#vision"
-                className="hover:text-white transition-colors duration-200"
-              >
-                Vision
-              </a>
-              <a
-                href="#services"
-                className="hover:text-white transition-colors duration-200"
-              >
-                Services
-              </a>
-              <a
-                href="#contact"
-                className="hover:text-white transition-colors duration-200"
-              >
-                Connect
-              </a>
-            </div>
-            <button
-              onClick={onStartJourney}
-              className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-2 lg:px-7 lg:py-3 rounded-xl font-bold transition-all hover:shadow-blue-500/50 hover:shadow-2xl text-sm lg:text-base"
-            >
-              Get Started
-            </button>
-          </div>
-        </nav>
-
         {/* 2. HERO */}
         <section className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden pt-16 lg:pt-0">
           <motion.div
@@ -558,7 +627,7 @@ export default function AppleLandingPage({
                   <a
                     href="https://www.facebook.com/share/1FV3hKDa2c/?mibextid=wwXIfr"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    threl="noopener noreferrer"
                     className="text-white/50 hover:text-blue-500 transition-colors duration-200 group"
                     aria-label="Facebook"
                   >
