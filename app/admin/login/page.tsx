@@ -54,14 +54,14 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen  flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
-      <header className="flex items-center justify-start py-6 ">
+      <header className="flex items-center justify-start py-4 px-4 lg:py-6">
         <a href="/" className="inline-block">
           <img
             src="/logos.png"
             alt="BISF Logo"
-            className="w-36 h-auto object-contain "
+            className="w-32 lg:w-36 h-auto object-contain"
           />
         </a>
       </header>
@@ -69,13 +69,13 @@ export default function AdminLoginPage() {
       {/* Login Form */}
       <main className="flex-grow flex items-center justify-center p-4">
         <div className="w-full max-w-md">
-          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-8 space-y-6">
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 lg:p-8 space-y-6">
             <div className="text-center">
-              <div className="w-16 h-16 bg-[#2B2E7E]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Lock className="w-8 h-8 text-[#2B2E7E]" />
+              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-[#2B2E7E]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Lock className="w-6 h-6 lg:w-8 lg:h-8 text-[#2B2E7E]" />
               </div>
-              <h1 className="text-2xl font-bold text-slate-800">Admin Login</h1>
-              <p className="text-slate-500 mt-2">
+              <h1 className="text-xl lg:text-2xl font-bold text-slate-800">Admin Login</h1>
+              <p className="text-slate-500 mt-2 text-sm lg:text-base">
                 Enter your credentials to access the admin dashboard
               </p>
             </div>
