@@ -45,11 +45,29 @@ export default function AppleLandingPage({
   const bookSectionRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 3000);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < lastScrollY || currentScrollY < 50) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+        setIsMobileMenuOpen(false);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   const { scrollYProgress } = useScroll({ target: containerRef });
 
@@ -70,7 +88,10 @@ export default function AppleLandingPage({
   return (
     <>
       {/* 1. PREMIUM NAVBAR */}
-      <nav 
+      <motion.nav 
+        initial={{ y: 0 }}
+        animate={{ y: isVisible ? 0 : -100 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
         className="fixed top-0 left-0 right-0 w-full z-[10000] bg-[#050505]/90 backdrop-blur-md border-b border-white/10 h-16 lg:h-24 flex items-center"
       >
         <div className="max-w-[1400px] mx-auto w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -170,7 +191,7 @@ export default function AppleLandingPage({
             </motion.div>
           )}
         </AnimatePresence>
-      </nav>
+      </motion.nav>
 
       {isLoading && <MoneyLoader />}
 
@@ -627,7 +648,7 @@ export default function AppleLandingPage({
                   <a
                     href="https://www.facebook.com/share/1FV3hKDa2c/?mibextid=wwXIfr"
                     target="_blank"
-                    threl="noopener noreferrer"
+                    rel="noopener noreferrer"
                     className="text-white/50 hover:text-blue-500 transition-colors duration-200 group"
                     aria-label="Facebook"
                   >
