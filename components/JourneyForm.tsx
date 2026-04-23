@@ -961,41 +961,44 @@ export default function JourneyForm({ onBackToHome }: JourneyFormProps) {
                     Where Are You Based?
                   </motion.h2>
                   <motion.div 
-                    className="grid gap-4 lg:gap-6 mt-6 lg:mt-8 p-6 lg:p-8 bg-gradient-to-br from-slate-900/80 via-slate-950 to-slate-900/80 border border-slate-700/50 rounded-2xl lg:rounded-[2rem] shadow-2xl shadow-slate-950/20 relative overflow-hidden"
+                    className="grid gap-4 lg:gap-6 mt-6 lg:mt-8 p-6 lg:p-8 bg-gradient-to-br from-slate-900/80 via-slate-950 to-slate-900/80 border border-slate-700/50 rounded-2xl lg:rounded-[2rem] shadow-2xl shadow-slate-950/20 relative overflow-visible"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.4 }}
                   >
-                    {/* Animated gradient background */}
-                    <motion.div
-                      className="absolute inset-0 pointer-events-none"
-                      animate={{
-                        background: [
-                          "radial-gradient(600px at 0% 0%, rgba(6, 182, 212, 0.05) 0%, transparent 100%)",
-                          "radial-gradient(600px at 100% 100%, rgba(59, 130, 246, 0.05) 0%, transparent 100%)",
-                          "radial-gradient(600px at 0% 0%, rgba(6, 182, 212, 0.05) 0%, transparent 100%)"
-                        ]
-                      }}
-                      transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                    
-                    {/* Floating accent elements */}
-                    <motion.div
-                      className="absolute -top-10 -right-10 w-32 h-32 border border-cyan-400/20 rounded-full pointer-events-none"
-                      animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.3, 0.6, 0.3],
-                      }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                    <motion.div
-                      className="absolute -bottom-10 -left-10 w-40 h-40 border border-blue-400/20 rounded-full pointer-events-none"
-                      animate={{
-                        scale: [1.2, 1, 1.2],
-                        opacity: [0.2, 0.5, 0.2],
-                      }}
-                      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                    />
+                    {/* Background Wrapper for overflow clipping of decorative elements only */}
+                    <div className="absolute inset-0 rounded-2xl lg:rounded-[2rem] overflow-hidden pointer-events-none">
+                      {/* Animated gradient background */}
+                      <motion.div
+                        className="absolute inset-0"
+                        animate={{
+                          background: [
+                            "radial-gradient(600px at 0% 0%, rgba(6, 182, 212, 0.05) 0%, transparent 100%)",
+                            "radial-gradient(600px at 100% 100%, rgba(59, 130, 246, 0.05) 0%, transparent 100%)",
+                            "radial-gradient(600px at 0% 0%, rgba(6, 182, 212, 0.05) 0%, transparent 100%)"
+                          ]
+                        }}
+                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                      />
+                      
+                      {/* Floating accent elements */}
+                      <motion.div
+                        className="absolute -top-10 -right-10 w-32 h-32 border border-cyan-400/20 rounded-full"
+                        animate={{
+                          scale: [1, 1.2, 1],
+                          opacity: [0.3, 0.6, 0.3],
+                        }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                      />
+                      <motion.div
+                        className="absolute -bottom-10 -left-10 w-40 h-40 border border-blue-400/20 rounded-full"
+                        animate={{
+                          scale: [1.2, 1, 1.2],
+                          opacity: [0.2, 0.5, 0.2],
+                        }}
+                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                      />
+                    </div>
                     
                     <div className="relative z-10 space-y-6">
                       <motion.div

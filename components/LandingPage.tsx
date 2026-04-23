@@ -217,7 +217,9 @@ export default function AppleLandingPage({
                   }}
                 >
                   <div className="text-center opacity-20">
-                    <h4 className="text-xs md:text-2xl font-bold">BISF STRATEGY</h4>
+                    <h4 className="text-xs md:text-2xl font-bold">
+                      BISF STRATEGY
+                    </h4>
                   </div>
                 </div>
               </motion.div>
