@@ -742,7 +742,7 @@ export default function JourneyForm({ onBackToHome }: JourneyFormProps) {
                         <Sparkles className="w-8 h-8 text-cyan-400" />
                       </motion.span>
                       <div className="font-bold text-xl mb-2 text-white">Yes, I&apos;m in!</div>
-                      <div className="text-slate-400">Let&apos;s build together.</div>
+                      <div className="text-slate-400">Let's build together.</div>
                     </motion.button>
                     <motion.button 
                       onClick={() => { updateData("ecosystem", false); handleNext(); }} 
