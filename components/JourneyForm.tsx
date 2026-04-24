@@ -145,7 +145,7 @@ export default function JourneyForm({ onBackToHome }: JourneyFormProps) {
     switch (step) {
       case 1: return { title: "Beyond Investment.", subtitle: "Discover opportunities that shape tomorrow." };
       case 2: return { title: "Join the Ecosystem.", subtitle: "Connect and scale with visionary leaders." };
-      case 3: return { title: "Let&apos;s Connect.", subtitle: "We&apos;re excited to learn about your journey." };
+      case 3: return { title: "Let's Connect.", subtitle: "We&apos;re excited to learn about your journey." };
       case 4: return { title: "Find Your Network.", subtitle: "Unlock hyper-local opportunities." };
       case 5: return { title: "Welcome Aboard.", subtitle: "The future of innovation starts right here." };
       default: return { title: "", subtitle: "" };
