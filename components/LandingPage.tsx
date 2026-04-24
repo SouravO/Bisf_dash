@@ -206,7 +206,7 @@ export default function AppleLandingPage({
             className="z-10 px-4 sm:px-6 lg:px-6"
           >
             <h1 className="text-[clamp(2.5rem,12vw,8rem)] lg:text-[clamp(3rem,10vw,8rem)] font-bold tracking-tighter leading-none mb-4 lg:mb-6">
-              Bharat Innovations & Startups Facilitator
+              Bharath Innovations & Startups Facilitator
             </h1>
             <p className="text-lg sm:text-xl lg:text-xl text-white/50 max-w-3xl mx-auto font-medium px-4">
               A Full-Stack Startup Facilitator – Building India’s Next
@@ -347,9 +347,9 @@ export default function AppleLandingPage({
                 </p>
               </div>
               <img
-                src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800"
+                src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&q=80&w=800"
                 className="absolute bottom-0 right-0 w-2/3 lg:w-2/3 opacity-20 group-hover:opacity-40 transition-opacity"
-                alt="Cyber"
+                alt="Venture Capital Network"
               />
             </motion.div>
 
