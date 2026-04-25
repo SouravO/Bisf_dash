@@ -346,7 +346,7 @@ export default function AdminDashboardPage() {
                   BISF Admin
                 </span>
                 <p className="text-xs text-slate-500">
-                  Bharat Innovations & Startups Facilitator
+                  Bharath Innovations & Startups Facilitator
                 </p>
               </div>
             </div>

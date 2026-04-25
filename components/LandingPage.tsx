@@ -390,7 +390,7 @@ export default function AppleLandingPage({
                   Scaling India's Potential?
                 </h3>
                 <p className="text-black/50">
-                  Join the full-stack ecosystem built for Bharat.
+                  Join the full-stack ecosystem built for Bharath.
                 </p>
               </div>
               <div className="w-12 h-12 lg:w-16 lg:h-16 bg-black rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -541,7 +541,7 @@ export default function AppleLandingPage({
                   className="h-20 lg:h-30 mb-4 lg:mb-6 hover:scale-110 transition-transform"
                 />
                 <p className="text-white/50 text-sm leading-relaxed">
-                  Bharat Innovations & Startups Facilitator LLP (BISF).
+                  Bharath Innovations & Startups Facilitator LLP (BISF).
                   Strengthening India’s global position in the startup
                   ecosystem.
                 </p>
@@ -674,7 +674,7 @@ export default function AppleLandingPage({
               className="flex flex-col items-center justify-between gap-4 lg:gap-6"
             >
               <p className="text-white/40 text-xs tracking-widest uppercase text-center">
-                © 2026 Bharat Innovations & Startups Facilitator LLP
+                © 2026 Bharath Innovations & Startups Facilitator LLP
               </p>
               <p className="text-white/40 text-xs text-center">
                 A Venture Backed by iQue Ventures
